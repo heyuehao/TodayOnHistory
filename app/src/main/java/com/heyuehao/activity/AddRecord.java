@@ -1,22 +1,18 @@
 package com.heyuehao.activity;
 
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-import cn.leancloud.AVOSCloud;
-import cn.leancloud.AVObject;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.heyuehao.common.LeanCloud.InsertRecord;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.heyuehao.R;
 import com.heyuehao.common.utils.Thing;
@@ -58,12 +54,18 @@ public class AddRecord extends AppCompatActivity implements DatePickerDialog.OnD
             }
         });
 
+        // 点击返回
         findViewById(R.id.backImg).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
+        // 自动弹起软键盘
+        things = findViewById(R.id.things);
+        things.requestFocus();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
         submitBtn = findViewById(R.id.submitBtn);
         submitBtn.setOnClickListener(new View.OnClickListener() {
@@ -73,13 +75,10 @@ public class AddRecord extends AppCompatActivity implements DatePickerDialog.OnD
             }
         });
 
-        // 初始化leanCloud
-        AVOSCloud.initialize(this, "BwcTgT1z6l8Ynapm4ffxjlk9-MdYXbMMI", "1zpcvxROu34z9WReaFv2w2yG");
     }
 
-    private int choice;
+    private int choice = -1;
     public void getObj () {
-        things = findViewById(R.id.things);
         Thing thing = new Thing();
         if(things.getText().toString().equals("")) {
             builder = new AlertDialog.Builder(this)
@@ -100,32 +99,9 @@ public class AddRecord extends AppCompatActivity implements DatePickerDialog.OnD
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            thing.setPush(choice == 0 ? true : false);
-                            // 上传记录
-                            AVObject testObject = new AVObject("TodayOnHistory");
-                            testObject.put("date", thing.getDate());
-                            testObject.put("content", thing.getContent());
-                            testObject.put("push", thing.isPush());
-                            testObject.saveInBackground().subscribe(new Observer<AVObject>() {
-                                @Override
-                                public void onSubscribe(Disposable d) { }
-
-                                @Override
-                                // 保存成功
-                                public void onNext(AVObject avObject) {
-                                    Toast.makeText(AddRecord.this, "保存成功", Toast.LENGTH_LONG).show();
-                                    AddRecord.this.finish();
-                                }
-
-                                @Override
-                                // 保存失败
-                                public void onError(Throwable e) {
-                                    Toast.makeText(AddRecord.this, "保存失败，请重新尝试", Toast.LENGTH_LONG).show();
-                                }
-
-                                @Override
-                                public void onComplete() { }
-                            });
+                            thing.setPush(choice <= 0 ? true : false);
+                            // 上传至LeanCloud
+                            InsertRecord ir = new InsertRecord(thing, AddRecord.this);
                         }
                     })
                     .setNegativeButton("取消", null)
@@ -150,7 +126,6 @@ public class AddRecord extends AppCompatActivity implements DatePickerDialog.OnD
         datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
-
                 // Toast.makeText(MainActivity.this, "Datepicker Canceled", Toast.LENGTH_SHORT).show();
             }
         });
