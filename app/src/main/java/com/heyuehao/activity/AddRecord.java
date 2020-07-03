@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
-import com.heyuehao.common.LeanCloud.InsertRecord;
+import com.heyuehao.common.LeanCloud.QueryRecord;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.heyuehao.R;
 import com.heyuehao.common.utils.Thing;
@@ -31,6 +31,7 @@ public class AddRecord extends AppCompatActivity implements DatePickerDialog.OnD
     private int year, month, day;
     private String dateStr;
     private AlertDialog builder;
+    Thing thing;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +80,7 @@ public class AddRecord extends AppCompatActivity implements DatePickerDialog.OnD
 
     private int choice = -1;
     public void getObj () {
-        Thing thing = new Thing();
+        thing = new Thing();
         if(things.getText().toString().equals("")) {
             builder = new AlertDialog.Builder(this)
                     .setMessage("内容不能为空")
@@ -100,8 +101,9 @@ public class AddRecord extends AppCompatActivity implements DatePickerDialog.OnD
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             thing.setPush(choice <= 0 ? true : false);
-                            // 上传至LeanCloud
-                            InsertRecord ir = new InsertRecord(thing, AddRecord.this);
+                            // 判断当天是否已有记录
+                            QueryRecord query = new QueryRecord(AddRecord.this);
+                            query.EqualTo(thing, AddRecord.this);
                         }
                     })
                     .setNegativeButton("取消", null)
