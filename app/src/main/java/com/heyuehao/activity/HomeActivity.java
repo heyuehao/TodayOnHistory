@@ -12,10 +12,12 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.heyuehao.R;
+import com.heyuehao.common.LeanCloud.UserLogOut;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private MaterialButton addBtn, queryBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +30,18 @@ public class MainActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.settings:
-                        Toast.makeText(MainActivity.this, "settings", Toast.LENGTH_LONG).show();
+                        Toast.makeText(HomeActivity.this, "settings", Toast.LENGTH_LONG).show();
+                        break;
+                    case R.id.logout:
+                        UserLogOut ul = new UserLogOut();
+                        boolean flag = ul.Logout();
+                        if (flag) {
+                            Toast.makeText(HomeActivity.this, "退出成功", Toast.LENGTH_LONG).show();
+                            // 跳转到登录页面
+                            Intent intent = new Intent(HomeActivity.this, Welcome.class);
+                            finish();
+                            startActivity(intent);
+                        }
                         break;
                 }
                 return true;
@@ -38,16 +51,26 @@ public class MainActivity extends AppCompatActivity {
         addBtn = findViewById(R.id.addBtn);
         queryBtn = findViewById(R.id.queryBtn);
 
+        // 点击跳转到添加事件页面
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddRecord.class);
+                Intent intent = new Intent(HomeActivity.this, AddRecord.class);
                 startActivity(intent);
             }
         });
 
+        // 点击跳转到查看事件页面
+        queryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, ShowRecords.class);
+                startActivity(intent);
+            }
+        });
     }
 
+    // 创建Menu菜单
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);

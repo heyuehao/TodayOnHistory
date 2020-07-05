@@ -1,4 +1,4 @@
-package com.heyuehao.common.utils;
+package com.heyuehao.common.Utils;
 
 import android.content.DialogInterface;
 

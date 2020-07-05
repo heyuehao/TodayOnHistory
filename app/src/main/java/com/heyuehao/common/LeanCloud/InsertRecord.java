@@ -3,7 +3,7 @@ package com.heyuehao.common.LeanCloud;
 import android.widget.Toast;
 
 import com.heyuehao.R;
-import com.heyuehao.common.utils.Thing;
+import com.heyuehao.common.Utils.Thing;
 
 import androidx.appcompat.app.AppCompatActivity;
 import cn.leancloud.AVOSCloud;
@@ -16,11 +16,12 @@ public class InsertRecord {
         // 初始化
         AVOSCloud.initialize(context, context.getString(R.string.appId), context.getString(R.string.appKey));
         // 上传记录
-        AVObject testObject = new AVObject("TodayOnHistory");
-        testObject.put("date", thing.getDate());
-        testObject.put("content", thing.getContent());
-        testObject.put("push", thing.isPush());
-        testObject.saveInBackground().subscribe(new Observer<AVObject>() {
+        AVObject record = new AVObject(context.getString(R.string.className));
+        record.put("date", thing.getDate());
+        record.put("content", thing.getContent());
+        record.put("push", thing.isPush());
+        record.put("user", thing.getUser());
+        record.saveInBackground().subscribe(new Observer<AVObject>() {
             @Override
             public void onSubscribe(Disposable d) { }
 

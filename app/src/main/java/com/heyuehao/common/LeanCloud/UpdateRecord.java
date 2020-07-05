@@ -3,7 +3,7 @@ package com.heyuehao.common.LeanCloud;
 import android.widget.Toast;
 
 import com.heyuehao.R;
-import com.heyuehao.common.utils.Thing;
+import com.heyuehao.common.Utils.Thing;
 
 import java.util.List;
 

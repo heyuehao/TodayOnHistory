@@ -3,6 +3,7 @@ package com.heyuehao.activity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import cn.leancloud.AVUser;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ import com.google.android.material.button.MaterialButton;
 import com.heyuehao.common.LeanCloud.QueryRecord;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.heyuehao.R;
-import com.heyuehao.common.utils.Thing;
+import com.heyuehao.common.Utils.Thing;
 
 import java.util.Calendar;
 
@@ -113,6 +114,7 @@ public class AddRecord extends AppCompatActivity implements DatePickerDialog.OnD
 
         thing.setDate(dateStr);
         thing.setContent(things.getText().toString());
+        thing.setUser(AVUser.getCurrentUser());
     }
 
     // 设置DatePicker弹出
