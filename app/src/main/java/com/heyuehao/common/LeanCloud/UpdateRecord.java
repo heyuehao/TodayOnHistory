@@ -5,12 +5,14 @@ import android.widget.Toast;
 import com.heyuehao.R;
 import com.heyuehao.common.Utils.Thing;
 
+import java.util.Arrays;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import cn.leancloud.AVOSCloud;
 import cn.leancloud.AVObject;
 import cn.leancloud.AVQuery;
+import cn.leancloud.AVUser;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -26,8 +28,13 @@ public class UpdateRecord {
      * @param thing
      */
     public void whereDateEqualTo (AppCompatActivity context, Thing thing) {
-        AVQuery<AVObject> query = new AVQuery<>("TodayOnHistory");
-        query.whereEqualTo("date", thing.getDate());
+        AVQuery<AVObject> userQuery = new AVQuery<>(context.getString(R.string.className));
+        AVQuery<AVObject> dateQuery = new AVQuery<>(context.getString(R.string.className));
+        dateQuery.whereEqualTo("date", thing.getDate());
+        userQuery.whereEqualTo("user", AVUser.getCurrentUser());
+        // 组合查询
+        AVQuery<AVObject> query = AVQuery.and(Arrays.asList(userQuery, dateQuery));
+
         query.findInBackground().subscribe(new Observer<List<AVObject>>() {
             public void onSubscribe(Disposable disposable) {}
             public void onNext(List<AVObject> records) {

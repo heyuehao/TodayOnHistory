@@ -27,8 +27,8 @@ public class ShowRecords extends AppCompatActivity {
             }
         });
 
-        RvAdapter rd = new RvAdapter();
-        List<Thing> date = new QueryRecord(ShowRecords.this).QueryAll(ShowRecords.this);
-        rd.setmData(date);
+        // 从LeanCloud中查询当前用户的所有数据
+        QueryRecord qr = new QueryRecord(this);
+        qr.QueryAll(this);
     }
 }

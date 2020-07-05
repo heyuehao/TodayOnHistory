@@ -3,10 +3,13 @@ package com.heyuehao.common.LeanCloud;
 import android.widget.Toast;
 
 import com.heyuehao.R;
+import com.heyuehao.activity.ShowRecords;
+import com.heyuehao.common.Adapter.RvAdapter;
 import com.heyuehao.common.Utils.AskForUpdate;
 import com.heyuehao.common.Utils.Thing;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,17 +30,22 @@ public class QueryRecord {
     }
 
     /**
-     * 查询此日期是否有其他记录
+     * 查询此用户在当前日期是否有其他记录
      * @param thing
      * @param context
      */
     public void EqualTo(Thing thing, AppCompatActivity context) {
-        query.whereEqualTo("date", thing.getDate());
+        AVQuery<AVObject> userQuery = new AVQuery<>(context.getString(R.string.className));
+        AVQuery<AVObject> dateQuery = new AVQuery<>(context.getString(R.string.className));
+        dateQuery.whereEqualTo("date", thing.getDate());
+        userQuery.whereEqualTo("user", AVUser.getCurrentUser());
+        // 组合查询
+        query = AVQuery.and(Arrays.asList(userQuery, dateQuery));
         query.findInBackground().subscribe(new Observer<List<AVObject>>() {
             public void onSubscribe(Disposable disposable) {}
-            public void onNext(List<AVObject> records) {
+            public void onNext(List<AVObject> userDate) {
                 // records 是返回的查询结果
-                res = records;
+                res = userDate;
             }
             public void onError(Throwable throwable) {}
             public void onComplete() {
@@ -85,7 +93,11 @@ public class QueryRecord {
             }
 
             @Override
-            public void onComplete() { }
+            public void onComplete() {
+                // 将返回的数据放入适配器中
+                RvAdapter rd = new RvAdapter();
+                rd.setmData(res);
+            }
         });
 
         return res;
