@@ -17,11 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
     private LayoutInflater mLayoutInflater;
     private List<Thing> mData;
+
+    public RvAdapter(List<Thing> data) {
+        mData = data;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         @SuppressLint("ResourceType")
-        View view = mLayoutInflater.inflate(R.id.item_layout, parent, false);
+        View view = mLayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv, parent, false);
         return new ViewHolder(view);
     }
 
@@ -29,20 +34,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // 设置每个TextView的内容
         holder.item_date.setText(mData.get(position).getDate());
-        holder.item_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // item点击事件
-            }
-        });
-
         holder.item_content.setText(mData.get(position).getContent());
-        holder.item_content.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
 
     @Override
@@ -58,9 +50,5 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
             item_date = itemView.findViewById(R.id.text_item_date);
             item_content = itemView.findViewById(R.id.text_item_content);
         }
-    }
-
-    public void setmData(List<Thing> mData) {
-        this.mData = mData;
     }
 }

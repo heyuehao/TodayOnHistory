@@ -3,27 +3,35 @@
     android:id="@+id/item_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/text_item_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
         android:textColor="@android:color/black"
         android:textSize="20sp"
+        android:textStyle="bold"
         android:text="2020年7月5日"/>
 
     <TextView
         android:id="@+id/text_item_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
         android:paddingTop="5dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
         android:textColor="@android:color/black"
-        android:textSize="15sp"
+        android:textSize="16sp"
         android:text="今天很开心"/>
+
+    <View
+        android:layout_height="1px"
+        android:background="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="#C4C4C4"/>
 </LinearLayout>

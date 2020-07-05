@@ -3,9 +3,8 @@ package com.heyuehao.common.LeanCloud;
 import android.widget.Toast;
 
 import com.heyuehao.R;
-import com.heyuehao.activity.ShowRecords;
-import com.heyuehao.common.Adapter.RvAdapter;
 import com.heyuehao.common.Utils.AskForUpdate;
+import com.heyuehao.common.Utils.CreateRv;
 import com.heyuehao.common.Utils.Thing;
 
 import java.util.ArrayList;
@@ -95,8 +94,8 @@ public class QueryRecord {
             @Override
             public void onComplete() {
                 // 将返回的数据放入适配器中
-                RvAdapter rd = new RvAdapter();
-                rd.setmData(res);
+                CreateRv crv = new CreateRv(res);
+                crv.init(context);
             }
         });
 
