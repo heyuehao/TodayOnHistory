@@ -15,18 +15,20 @@ import com.heyuehao.R;
 import com.heyuehao.common.LeanCloud.UserLogOut;
 
 public class HomeActivity extends AppCompatActivity {
-    private Toolbar toolbar;
+    private Toolbar toolbar_home;
     private MaterialButton addBtn, queryBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
+
         // 配置toolbar
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+        toolbar_home = findViewById(R.id.toolbar_home);
+        setSupportActionBar(toolbar_home);
+        toolbar_home.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
+            // Toolbar点击事件
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.settings:
@@ -73,7 +75,7 @@ public class HomeActivity extends AppCompatActivity {
     // 创建Menu菜单
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_home, menu);
         return true;
     }
 }

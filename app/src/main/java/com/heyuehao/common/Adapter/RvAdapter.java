@@ -1,12 +1,15 @@
 package com.heyuehao.common.Adapter;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.heyuehao.R;
+import com.heyuehao.activity.ShowRecords;
 import com.heyuehao.common.Utils.Thing;
 
 import java.util.List;
@@ -35,6 +38,27 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
         // 设置每个TextView的内容
         holder.item_date.setText(mData.get(position).getDate());
         holder.item_content.setText(mData.get(position).getContent());
+
+        // 短按
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener != null) {
+                    listener.onClick(position);
+                }
+            }
+        });
+
+        // 长按
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (longClickListener != null) {
+                    longClickListener.onClick(position);
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -51,4 +75,30 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
             item_content = itemView.findViewById(R.id.text_item_content);
         }
     }
+
+    // ----------------短按点击事件开始
+    // 定义接口
+    public interface OnItemClickListener {
+        void onClick(int position);
+    }
+
+    private OnItemClickListener listener;
+
+    // 公共方法
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+    // ----------------短按点击事件结束
+
+    // ----------------长按点击事件开始
+    public interface OnItemLongClickListener {
+        void onClick(int position);
+    }
+
+    private OnItemLongClickListener longClickListener;
+
+    public void setOnItemLongClickListener(OnItemLongClickListener longClickListener) {
+        this.longClickListener = longClickListener;
+    }
+    // ----------------长按点击事件结束
 }

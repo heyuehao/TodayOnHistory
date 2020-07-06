@@ -9,16 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.RecordDetail"></activity>
         <activity android:name=".activity.Welcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".activity.ShowRecords" />
         <activity android:name=".activity.AddRecord" />
-        <activity android:name=".activity.HomeActivity" />
-        <!-- 即时通讯和推送 START -->
+        <activity android:name=".activity.HomeActivity" /> <!-- 即时通讯和推送 START -->
         <!-- 即时通讯和推送都需要 PushService -->
         <receiver android:name="cn.leancloud.push.AVBroadcastReceiver">
             <intent-filter>
@@ -30,11 +31,11 @@
 
         <service android:name="cn.leancloud.push.PushService" />
     </application>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

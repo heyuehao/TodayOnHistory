@@ -1,9 +1,14 @@
 package com.heyuehao.common.LeanCloud;
 
+import android.content.Intent;
 import android.widget.Toast;
 
 import com.heyuehao.R;
+import com.heyuehao.activity.RecordDetail;
+import com.heyuehao.activity.ShowRecords;
+import com.heyuehao.common.Adapter.RvAdapter;
 import com.heyuehao.common.Utils.AskForUpdate;
+import com.heyuehao.common.Utils.CreatePv;
 import com.heyuehao.common.Utils.CreateRv;
 import com.heyuehao.common.Utils.Thing;
 
@@ -100,5 +105,40 @@ public class QueryRecord {
         });
 
         return res;
+    }
+
+    public void findTodayOnHistory(AppCompatActivity context, String date) {
+        AVQuery<AVObject> userQuery = new AVQuery<>(context.getString(R.string.className));
+        AVQuery<AVObject> dateQuery = new AVQuery<>(context.getString(R.string.className));
+        dateQuery.whereContains("date", date.split("年")[1]);
+        userQuery.whereEqualTo("user", AVUser.getCurrentUser());
+        // 组合查询
+        query = AVQuery.and(Arrays.asList(userQuery, dateQuery));
+        List<Thing> res = new ArrayList<>();
+        query.findInBackground().subscribe(new Observer<List<AVObject>>() {
+            @Override
+            public void onSubscribe(Disposable d) { }
+
+            @Override
+            public void onNext(List<AVObject> avObjects) {
+                for(int i=0;i<avObjects.size();i++) {
+                    Thing item = new Thing();
+                    String content = (String) avObjects.get(i).get("content");
+                    String date = (String) avObjects.get(i).get("date");
+                    item.setContent(content);
+                    item.setDate(date);
+                    res.add(item);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) { }
+
+            @Override
+            public void onComplete() {
+                CreatePv cp = new CreatePv(res);
+                cp.initPager(context);
+            }
+        });
     }
 }
