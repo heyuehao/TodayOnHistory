@@ -3,6 +3,7 @@ package com.heyuehao.common.LeanCloud;
 import android.widget.Toast;
 
 import com.heyuehao.R;
+import com.heyuehao.common.Utils.Loading;
 import com.heyuehao.common.Utils.Thing;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +13,13 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 public class InsertRecord {
+    private Loading loading;
+
     public InsertRecord (Thing thing, AppCompatActivity context) {
+        // 显示加载动画
+        loading = new Loading(context);
+        loading.start();
+
         // 初始化
         AVOSCloud.initialize(context, context.getString(R.string.appId), context.getString(R.string.appKey));
         // 上传记录
@@ -26,7 +33,10 @@ public class InsertRecord {
             public void onSubscribe(Disposable d) { }
 
             @Override
-            public void onNext(AVObject avObject) { }
+            public void onNext(AVObject avObject) {
+                Toast.makeText(context, "保存成功", Toast.LENGTH_LONG).show();
+                context.finish();
+            }
 
             @Override
             // 保存失败
@@ -37,8 +47,7 @@ public class InsertRecord {
             @Override
             // 保存成功
             public void onComplete() {
-                Toast.makeText(context, "保存成功", Toast.LENGTH_LONG).show();
-                context.finish();
+                loading.stop();
             }
         });
     }

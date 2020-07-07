@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_detail"
-        android:theme="?attr/actionBarTheme"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:titleTextColor="@android:color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_detail"
+            android:theme="?attr/actionBarTheme"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            app:titleTextColor="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/detail_view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/detail_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
-    <me.relex.circleindicator.CircleIndicator
-        android:id="@+id/indicator"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="48dp"/>
+        <me.relex.circleindicator.CircleIndicator
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="48dp"/>
+    </LinearLayout>
 
-</LinearLayout>
+    <include layout="@layout/view_loading" />
+</RelativeLayout>

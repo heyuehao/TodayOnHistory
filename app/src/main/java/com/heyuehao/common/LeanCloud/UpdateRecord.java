@@ -3,6 +3,7 @@ package com.heyuehao.common.LeanCloud;
 import android.widget.Toast;
 
 import com.heyuehao.R;
+import com.heyuehao.common.Utils.Loading;
 import com.heyuehao.common.Utils.Thing;
 
 import java.util.Arrays;
@@ -17,7 +18,13 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 public class UpdateRecord {
+    private Loading loading;
+
     public UpdateRecord (AppCompatActivity context) {
+        // 显示加载动画
+        loading = new Loading(context);
+        loading.start();
+
         // 初始化
         AVOSCloud.initialize(context, context.getString(R.string.appId), context.getString(R.string.appKey));
     }
@@ -28,6 +35,7 @@ public class UpdateRecord {
      * @param thing
      */
     public void whereDateEqualTo (AppCompatActivity context, Thing thing) {
+
         AVQuery<AVObject> userQuery = new AVQuery<>(context.getString(R.string.className));
         AVQuery<AVObject> dateQuery = new AVQuery<>(context.getString(R.string.className));
         dateQuery.whereEqualTo("date", thing.getDate());
@@ -49,7 +57,10 @@ public class UpdateRecord {
                         public void onSubscribe(Disposable d) { }
 
                         @Override
-                        public void onNext(AVObject avObject) { }
+                        public void onNext(AVObject avObject) {
+                            Toast.makeText(context, "更新成功", Toast.LENGTH_LONG).show();
+                            context.finish();
+                        }
 
                         @Override
                         public void onError(Throwable e) {
@@ -58,8 +69,7 @@ public class UpdateRecord {
 
                         @Override
                         public void onComplete() {
-                            Toast.makeText(context, "更新成功", Toast.LENGTH_LONG).show();
-                            context.finish();
+                            loading.stop();
                         }
                     });
                 }

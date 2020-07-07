@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.heyuehao.common.LeanCloud.QueryRecord;
+import com.heyuehao.common.Utils.Loading;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.heyuehao.R;
 import com.heyuehao.common.Utils.Thing;
@@ -56,11 +57,11 @@ public class AddRecord extends AppCompatActivity implements DatePickerDialog.OnD
             }
         });
 
-        // 点击返回
+        // 点击返回图标
         findViewById(R.id.backImg).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                back();
             }
         });
 
@@ -77,6 +78,12 @@ public class AddRecord extends AppCompatActivity implements DatePickerDialog.OnD
             }
         });
 
+    }
+
+    // 按下返回键
+    @Override
+    public void onBackPressed() {
+        back();
     }
 
     private int choice = -1;
@@ -122,7 +129,7 @@ public class AddRecord extends AppCompatActivity implements DatePickerDialog.OnD
         datePickerDialog = DatePickerDialog.newInstance(this, year, month, day);
         datePickerDialog.setThemeDark(false);
         datePickerDialog.showYearPickerFirst(false);
-        datePickerDialog.setAccentColor("#6200EE");
+        datePickerDialog.setAccentColor(getResources().getColor(R.color.colorPrimary));
         datePickerDialog.vibrate(false);
         datePickerDialog.setOkText("确定");
         datePickerDialog.setCancelText("取消");
@@ -140,5 +147,10 @@ public class AddRecord extends AppCompatActivity implements DatePickerDialog.OnD
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         dateStr = year + "年" + (monthOfYear + 1) + "月" + dayOfMonth + "日";
         dateView.setText(dateStr);
+    }
+
+    public void back() {
+        Loading loading = new Loading(this);
+        loading.stop();
     }
 }

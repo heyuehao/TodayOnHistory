@@ -1,25 +1,18 @@
 package com.heyuehao.common.LeanCloud;
 
-import android.content.Intent;
 import android.widget.Toast;
 
 import com.heyuehao.R;
-import com.heyuehao.activity.RecordDetail;
-import com.heyuehao.activity.ShowRecords;
-import com.heyuehao.common.Adapter.RvAdapter;
 import com.heyuehao.common.Utils.AskForUpdate;
 import com.heyuehao.common.Utils.CreatePv;
 import com.heyuehao.common.Utils.CreateRv;
+import com.heyuehao.common.Utils.Loading;
 import com.heyuehao.common.Utils.Thing;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +26,13 @@ import io.reactivex.disposables.Disposable;
 public class QueryRecord {
     private List<AVObject> res;
     private AVQuery<AVObject> query;
+    private Loading loading;
+
     public QueryRecord(AppCompatActivity context) {
+        // 显示加载动画
+        loading = new Loading(context);
+        loading.start();
+
         // 初始化
         AVOSCloud.initialize(context, context.getString(R.string.appId), context.getString(R.string.appKey));
         query = new AVQuery<>(context.getString(R.string.className));
@@ -67,6 +66,7 @@ public class QueryRecord {
                     // 上传至LeanCloud
                     InsertRecord ir = new InsertRecord(thing, context);
                 }
+                loading.stop();
             }
         });
     }
@@ -115,6 +115,7 @@ public class QueryRecord {
                 // 将数据放入适配器中
                 CreateRv crv = new CreateRv(res);
                 crv.init(context);
+                loading.stop();
             }
         });
 
@@ -167,6 +168,7 @@ public class QueryRecord {
                 }
                 CreatePv cpv = new CreatePv(res);
                 cpv.initPager(context, index);
+                loading.stop();
             }
         });
     }
