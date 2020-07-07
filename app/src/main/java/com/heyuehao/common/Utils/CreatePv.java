@@ -11,6 +11,7 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+import me.relex.circleindicator.CircleIndicator;
 
 public class CreatePv {
     AppCompatActivity mcontext;
@@ -36,5 +37,10 @@ public class CreatePv {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(viewList, mcontext, mData);
         mViewPager.setAdapter(viewPagerAdapter);
         mViewPager.setCurrentItem(index);
+        // 添加小圆点指示器
+        CircleIndicator indicator = mcontext.findViewById(R.id.indicator);
+//        indicator.createIndicators(mData.size(), index);
+//        indicator.animatePageSelected(index);
+        indicator.setViewPager(mViewPager);
     }
 }

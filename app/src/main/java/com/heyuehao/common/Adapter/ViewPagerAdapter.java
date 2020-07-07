@@ -54,6 +54,6 @@ public class ViewPagerAdapter extends PagerAdapter {
     // 销毁
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView(viewList.get(position));
+        container.removeView((View) object);
     }
 }
