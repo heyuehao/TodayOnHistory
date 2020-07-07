@@ -16,7 +16,6 @@ import androidx.viewpager.widget.PagerAdapter;
 
 public class ViewPagerAdapter extends PagerAdapter {
     private List<View> viewList;
-    private List<String> titleList;
     private AppCompatActivity context;
     private List<Thing> mData;
 

@@ -12,8 +12,14 @@ import com.heyuehao.common.Utils.CreatePv;
 import com.heyuehao.common.Utils.CreateRv;
 import com.heyuehao.common.Utils.Thing;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -98,7 +104,15 @@ public class QueryRecord {
 
             @Override
             public void onComplete() {
-                // 将返回的数据放入适配器中
+                // 对数据按日期进行排序
+                Collections.sort(res, new Comparator<Thing>() {
+                    @Override
+                    public int compare(Thing o1, Thing o2) {
+                        return o2.getDate().compareTo(o1.getDate());
+                    }
+                });
+
+                // 将数据放入适配器中
                 CreateRv crv = new CreateRv(res);
                 crv.init(context);
             }
@@ -136,8 +150,23 @@ public class QueryRecord {
 
             @Override
             public void onComplete() {
-                CreatePv cp = new CreatePv(res);
-                cp.initPager(context);
+                // 对数据按日期进行排序
+                Collections.sort(res, new Comparator<Thing>() {
+                    @Override
+                    public int compare(Thing o1, Thing o2) {
+                        return o2.getDate().compareTo(o1.getDate());
+                    }
+                });
+
+                int index = 0;
+                for(int i=0;i<res.size();i++) {
+                    if(res.get(i).getDate().equals(date)) {
+                        index = i;
+                        break;
+                    }
+                }
+                CreatePv cpv = new CreatePv(res);
+                cpv.initPager(context, index);
             }
         });
     }

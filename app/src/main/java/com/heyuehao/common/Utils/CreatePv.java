@@ -26,7 +26,7 @@ public class CreatePv {
      * 配置ViewPager
      * @param context
      */
-    public void initPager (AppCompatActivity context) {
+    public void initPager (AppCompatActivity context, int index) {
         mcontext = context;
         mViewPager = mcontext.findViewById(R.id.detail_view_pager);
         viewList = new ArrayList<>();
@@ -35,5 +35,6 @@ public class CreatePv {
         viewList.add(li.inflate(R.layout.view_pv, null, false));
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(viewList, mcontext, mData);
         mViewPager.setAdapter(viewPagerAdapter);
+        mViewPager.setCurrentItem(index);
     }
 }

@@ -22,7 +22,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         // 配置toolbar
         toolbar_home = findViewById(R.id.toolbar_home);
         setSupportActionBar(toolbar_home);
