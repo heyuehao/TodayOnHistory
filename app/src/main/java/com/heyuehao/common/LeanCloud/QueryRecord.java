@@ -79,7 +79,6 @@ public class QueryRecord {
     public List<Thing> QueryAll(AppCompatActivity context) {
         List<Thing> res = new ArrayList<>();
         AVUser user = AVUser.getCurrentUser();
-        AVQuery<AVObject> query = new AVQuery<>(context.getString(R.string.className));
         query.whereEqualTo("user", user);
         query.findInBackground().subscribe(new Observer<List<AVObject>>() {
             @Override

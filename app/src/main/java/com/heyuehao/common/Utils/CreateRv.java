@@ -1,7 +1,6 @@
 package com.heyuehao.common.Utils;
 
 import android.content.Intent;
-import android.widget.TextView;
 
 import com.heyuehao.R;
 import com.heyuehao.activity.RecordDetail;
@@ -17,7 +16,6 @@ public class CreateRv {
     private RecyclerView mRecycleView;
     private RvAdapter mAdapter; // 适配器
     private LinearLayoutManager mLinearLayoutManager; // 布局管理器
-    private TextView view_title, view_thing;
     private List<Thing> data;
 
     public CreateRv(List<Thing> list) {
@@ -30,7 +28,10 @@ public class CreateRv {
         // 创建布局管理器，垂直设置LinearLayoutManager.VERTICAL，水平设置LinearLayoutManager.HORIZONTAL
         mLinearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         // 创建适配器并装入数据
-        mAdapter = new RvAdapter(data);
+//        mAdapter = RvAdapter.getInstance();
+//        mAdapter = new RvAdapter();
+        mAdapter = RvAdapter.getInstance();
+        mAdapter.setmData(data);
         // 设置布局管理器
         mRecycleView.setLayoutManager(mLinearLayoutManager);
         // 设置适配器

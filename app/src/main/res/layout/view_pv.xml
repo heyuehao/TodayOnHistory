@@ -22,5 +22,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:textSize="18sp"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="15dp"
+            android:textIsSelectable="true"
+            android:textColorHighlight="#CCCCCC"/>
 </LinearLayout>

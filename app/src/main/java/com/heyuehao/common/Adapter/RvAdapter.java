@@ -1,15 +1,12 @@
 package com.heyuehao.common.Adapter;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.heyuehao.R;
-import com.heyuehao.activity.ShowRecords;
 import com.heyuehao.common.Utils.Thing;
 
 import java.util.List;
@@ -18,11 +15,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
+    private static RvAdapter instance = null;
     private LayoutInflater mLayoutInflater;
     private List<Thing> mData;
 
-    public RvAdapter(List<Thing> data) {
-        mData = data;
+    // 使用单例模式 饿汉式
+    private RvAdapter() { }
+    public static RvAdapter getInstance() {
+        if(instance == null) {
+            instance = new RvAdapter();
+        }
+        return instance;
     }
 
     @NonNull
@@ -74,6 +77,14 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
             item_date = itemView.findViewById(R.id.text_item_date);
             item_content = itemView.findViewById(R.id.text_item_content);
         }
+    }
+
+    public List<Thing> getmData() {
+        return mData;
+    }
+
+    public void setmData(List<Thing> mData) {
+        this.mData = mData;
     }
 
     // ----------------短按点击事件开始

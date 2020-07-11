@@ -50,7 +50,7 @@ public class UpdateRecord {
                 // 获取ObjectID更新记录
                 if(records.size() == 1) {
                     String id = records.get(0).getObjectId();
-                    AVObject item = AVObject.createWithoutData("TodayOnHistory", id);
+                    AVObject item = AVObject.createWithoutData(context.getString(R.string.className), id);
                     item.put("content", thing.getContent());
                     item.saveInBackground().subscribe(new Observer<AVObject>() {
                         @Override
