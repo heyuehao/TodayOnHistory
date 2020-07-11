@@ -9,10 +9,13 @@ import com.heyuehao.common.Utils.CreateRv;
 import com.heyuehao.common.Utils.Loading;
 import com.heyuehao.common.Utils.Thing;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -107,7 +110,14 @@ public class QueryRecord {
                 Collections.sort(res, new Comparator<Thing>() {
                     @Override
                     public int compare(Thing o1, Thing o2) {
-                        return o2.getDate().compareTo(o1.getDate());
+                        Long o1Time = null, o2Time = null;
+                        try {
+                            o1Time = StringToTime(o1.getDate());
+                            o2Time = StringToTime(o2.getDate());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        return o2Time.compareTo(o1Time);
                     }
                 });
 
@@ -154,7 +164,14 @@ public class QueryRecord {
                 Collections.sort(res, new Comparator<Thing>() {
                     @Override
                     public int compare(Thing o1, Thing o2) {
-                        return o2.getDate().compareTo(o1.getDate());
+                        Long o1Time = null, o2Time = null;
+                        try {
+                            o1Time = StringToTime(o1.getDate());
+                            o2Time = StringToTime(o2.getDate());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        return o1Time.compareTo(o2Time);
                     }
                 });
 
@@ -170,5 +187,11 @@ public class QueryRecord {
                 loading.stop();
             }
         });
+    }
+    
+    public Long StringToTime(String dateStr) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
+        Date date = format.parse(dateStr);
+        return date.getTime();
     }
 }
