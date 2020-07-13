@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.heyuehao.R;
+import com.heyuehao.common.Config.SettingsConfig;
 import com.heyuehao.common.LeanCloud.UserLogOut;
 import com.heyuehao.common.Service.AlarmService;
 
@@ -74,8 +75,12 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         // 启动定时任务
-        Intent intent = new Intent(this, AlarmService.class);
-        startService(intent);
+        SettingsConfig sc = new SettingsConfig(this);
+        String doPush = sc.get("doPush");
+        if(!"false".equals(doPush)) {
+            Intent intent = new Intent(this, AlarmService.class);
+            startService(intent);
+        }
     }
 
     // 创建Menu菜单

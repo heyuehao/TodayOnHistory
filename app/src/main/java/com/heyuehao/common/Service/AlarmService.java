@@ -17,6 +17,10 @@ import java.util.TimeZone;
 import androidx.core.app.NotificationCompat;
 
 public class AlarmService extends Service {
+    Notification notification;
+    AlarmManager manager;
+    PendingIntent pendingIntent;
+
     public AlarmService() {
     }
 
@@ -31,16 +35,16 @@ public class AlarmService extends Service {
         // 通知常驻
         StayForeground();
 
-        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         // 启动时间
         long triggerAtTime = getStartTime();
 //        triggerAtTime = System.currentTimeMillis() + 5000;
         Log.d("triggerAtTime", String.valueOf(triggerAtTime));
         // 启动的任务
         Intent in = new Intent(this, NotificationService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, in, 0);
+        pendingIntent = PendingIntent.getService(this, 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
         manager.set(AlarmManager.RTC_WAKEUP, triggerAtTime, pendingIntent);
-
+//        return START_NOT_STICKY;
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -48,6 +52,9 @@ public class AlarmService extends Service {
         // 读取设置的时间
         SettingsConfig sc = new SettingsConfig(this);
         String pushTime = sc.get("pushTime");
+        if("default value".equals(pushTime)) {
+            pushTime = "8:00";
+        }
         int hour = Integer.parseInt(pushTime.split(":")[0]);
         int minute = Integer.parseInt(pushTime.split(":")[1]);
         // 开机之后到现在的运行时间(包括睡眠时间)
@@ -71,12 +78,20 @@ public class AlarmService extends Service {
     }
 
     public void StayForeground() {
-        Notification notification = new NotificationCompat.Builder(this, "stay")
+        notification = new NotificationCompat.Builder(this, "stay")
                 .setContentTitle("那年今日")
                 .setContentText("前台保持服务")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setOngoing(true)
                 .build();
         startForeground(1, notification);
+    }
+
+    @Override
+    public void onDestroy() {
+        // 停止通知服务
+        manager.cancel(pendingIntent);
+        stopForeground(true);
+        super.onDestroy();
     }
 }

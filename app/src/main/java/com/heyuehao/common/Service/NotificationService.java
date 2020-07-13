@@ -42,7 +42,6 @@ public class NotificationService extends Service {
         checkToday(date);
 
         Intent i = new Intent(this, AlarmService.class);
-//        startForegroundService(i);
         startService(i);
 
         return super.onStartCommand(intent, flags, startId);

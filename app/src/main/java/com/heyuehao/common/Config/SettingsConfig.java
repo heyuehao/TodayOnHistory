@@ -1,11 +1,9 @@
 package com.heyuehao.common.Config;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
-import com.heyuehao.common.Service.AlarmService;
 
 
 public class SettingsConfig {
@@ -21,9 +19,6 @@ public class SettingsConfig {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(name, value);
         editor.commit();
-        // 重新启动服务
-        Intent intent = new Intent(context, AlarmService.class);
-        context.startService(intent);
         Toast.makeText(context, "保存成功", Toast.LENGTH_LONG).show();
     }
 
