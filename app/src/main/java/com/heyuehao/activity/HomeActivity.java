@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.heyuehao.R;
 import com.heyuehao.common.LeanCloud.UserLogOut;
+import com.heyuehao.common.Service.AlarmService;
 
 public class HomeActivity extends AppCompatActivity {
     private Toolbar toolbar_home;
@@ -31,7 +32,9 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.settings:
-                        Toast.makeText(HomeActivity.this, "settings", Toast.LENGTH_LONG).show();
+                        Intent settings = new Intent(HomeActivity.this, SettingsActivity.class);
+                        startActivity(settings);
+//                        Toast.makeText(HomeActivity.this, "settings", Toast.LENGTH_LONG).show();
                         break;
                     case R.id.logout:
                         UserLogOut ul = new UserLogOut();
@@ -39,9 +42,9 @@ public class HomeActivity extends AppCompatActivity {
                         if (flag) {
                             Toast.makeText(HomeActivity.this, "退出成功", Toast.LENGTH_LONG).show();
                             // 跳转到登录页面
-                            Intent intent = new Intent(HomeActivity.this, Welcome.class);
+                            Intent welcome = new Intent(HomeActivity.this, Welcome.class);
                             finish();
-                            startActivity(intent);
+                            startActivity(welcome);
                         }
                         break;
                 }
@@ -69,6 +72,10 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // 启动定时任务
+        Intent intent = new Intent(this, AlarmService.class);
+        startService(intent);
     }
 
     // 创建Menu菜单

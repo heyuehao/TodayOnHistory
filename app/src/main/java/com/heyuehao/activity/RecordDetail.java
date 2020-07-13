@@ -38,7 +38,6 @@ public class RecordDetail extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.delete_item:
-//                        Toast.makeText(RecordDetail.this, "delete", Toast.LENGTH_LONG).show();
                         isSure();
                         break;
                 }

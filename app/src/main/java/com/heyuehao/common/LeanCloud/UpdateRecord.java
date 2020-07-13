@@ -52,6 +52,7 @@ public class UpdateRecord {
                     String id = records.get(0).getObjectId();
                     AVObject item = AVObject.createWithoutData(context.getString(R.string.className), id);
                     item.put("content", thing.getContent());
+                    item.put("push", thing.isPush());
                     item.saveInBackground().subscribe(new Observer<AVObject>() {
                         @Override
                         public void onSubscribe(Disposable d) { }
