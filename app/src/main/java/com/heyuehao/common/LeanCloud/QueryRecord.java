@@ -13,6 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -175,13 +176,26 @@ public class QueryRecord {
                     }
                 });
 
-                int index = 0;
+                int index = -1;
                 for(int i=0;i<res.size();i++) {
                     if(res.get(i).getDate().equals(date)) {
                         index = i;
                         break;
                     }
                 }
+                if(index == -1) {
+                    index = res.size() - 1;
+                }
+
+                // 获取当前日期
+                String today = getToday();
+                if(today.equals(date.split("年")[1])) {
+                    for(Thing t : res) {
+                        String tmp = t.getDate().split("年")[0] + "年的今天";
+                        t.setDate(tmp);
+                    }
+                }
+
                 CreatePv cpv = new CreatePv(res);
                 cpv.initPager(context, index);
                 loading.stop();
@@ -193,5 +207,13 @@ public class QueryRecord {
         SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
         Date date = format.parse(dateStr);
         return date.getTime();
+    }
+
+    public String getToday() {
+        Calendar calendar = Calendar.getInstance();
+        String month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
+        String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        String today = month + "月" + day + "日";
+        return today;
     }
 }

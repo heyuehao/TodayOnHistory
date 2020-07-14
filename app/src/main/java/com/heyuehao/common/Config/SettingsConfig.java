@@ -19,7 +19,7 @@ public class SettingsConfig {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(name, value);
         editor.commit();
-        Toast.makeText(context, "保存成功", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "保存成功", Toast.LENGTH_SHORT).show();
     }
 
     public String get(String name) {
