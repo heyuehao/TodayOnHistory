@@ -2,9 +2,12 @@ package com.heyuehao.common.Service;
 
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -78,11 +81,17 @@ public class AlarmService extends Service {
     }
 
     public void StayForeground() {
-        notification = new NotificationCompat.Builder(this, "stay")
+        // 兼容安卓8.0
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("stay", "前台保持服务", NotificationManager.IMPORTANCE_MIN);
+            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            manager.createNotificationChannel(channel);
+        }
+
+        Notification notification = new NotificationCompat.Builder(AlarmService.this, "stay")
                 .setContentTitle("那年今日")
                 .setContentText("前台保持服务")
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setOngoing(true)
                 .build();
         startForeground(1, notification);
     }

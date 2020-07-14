@@ -1,11 +1,14 @@
 package com.heyuehao.common.Service;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.IBinder;
 
 import com.heyuehao.R;
@@ -33,6 +36,8 @@ public class NotificationService extends Service {
 //        throw new UnsupportedOperationException("Not yet implemented");
         return null;
     }
+
+    boolean flag;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -64,7 +69,8 @@ public class NotificationService extends Service {
                 for(AVObject obj : avObjects) {
                     // 判断是否推送字段
                     if((Boolean) obj.get("push")) {
-                        notification(date);
+                        // notification(date);
+                        flag = true;
                         break;
                     }
                 }
@@ -74,7 +80,11 @@ public class NotificationService extends Service {
             public void onError(Throwable e) { }
 
             @Override
-            public void onComplete() { }
+            public void onComplete() {
+                if(flag) {
+                    notification(date);
+                }
+            }
         });
     }
 
@@ -85,6 +95,17 @@ public class NotificationService extends Service {
         PendingIntent pi = PendingIntent.getActivity(this, 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // 兼容安卓8.0
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // ChannelId为"1",ChannelName为"Channel1"
+            NotificationChannel channel = new NotificationChannel("push", "推送通知服务", NotificationManager.IMPORTANCE_DEFAULT);
+            channel.enableLights(true); // 是否在桌面icon右上角展示小红点
+            channel.setLightColor(Color.RED); // 小红点颜色
+            channel.setShowBadge(true); // 是否在久按桌面图标时显示此渠道的通知
+            manager.createNotificationChannel(channel);
+        }
+
         Notification notification = new NotificationCompat.Builder(this, "push")
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL) // 使用系统默认的通知响铃和振动效果

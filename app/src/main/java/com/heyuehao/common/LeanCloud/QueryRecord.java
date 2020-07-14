@@ -60,7 +60,10 @@ public class QueryRecord {
                 // records 是返回的查询结果
                 res = userDate;
             }
-            public void onError(Throwable throwable) {}
+            public void onError(Throwable throwable) {
+                // 可能是class没有创建
+                InsertRecord ir = new InsertRecord(thing, context);
+            }
             public void onComplete() {
                 // 若存在记录，询问是否进行更新
                 if(res != null && !res.isEmpty()) {
