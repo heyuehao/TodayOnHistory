@@ -81,6 +81,7 @@ public class NotificationService extends Service {
     public void notification(String date) {
         Intent in = new Intent(this, RecordDetail.class);
         in.putExtra("date", date);
+        in.putExtra("from", "push");
         PendingIntent pi = PendingIntent.getActivity(this, 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

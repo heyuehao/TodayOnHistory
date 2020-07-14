@@ -16,7 +16,7 @@ import com.heyuehao.common.LeanCloud.QueryRecord;
 
 public class RecordDetail extends AppCompatActivity {
     private Toolbar toolbar_detail;
-    private String date;
+    private String date, whereFrom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +26,7 @@ public class RecordDetail extends AppCompatActivity {
         // 查询往年同月同日的数据
         Intent intent = getIntent();
         this.date = intent.getStringExtra("date");
+        this.whereFrom = intent.getStringExtra("from");
         QueryRecord qr = new QueryRecord(this);
         qr.findTodayOnHistory(this, date);
 
@@ -65,5 +66,20 @@ public class RecordDetail extends AppCompatActivity {
                 }).setNegativeButton("取消", null)
                 .create();
         builder.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        back();
+    }
+
+    public void back() {
+        if("push".equals(whereFrom)) {
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            finish();
+        }
     }
 }
